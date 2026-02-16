@@ -109,20 +109,15 @@
 		var/current_arcane = user.get_skill_level(/datum/skill/magic/arcane)
 		if(current_arcane)
 			if(current_arcane < 6) // Only add if not already capped
-				active_item = TRUE
 				legendaryarcane = FALSE
 				user.adjust_skillrank(/datum/skill/magic/arcane, 1, TRUE)
-				user.change_stat("intelligence", 3)
-				to_chat(user, span_notice("Arcyne lightning crackles across the cuirass, enchanting your mind with forbidden knowledge!"))
-				icon_state ="artificerplate_powered"
-				item_state = "artificerplate_powered"
 			else
-				user.change_stat("intelligence", 3)
 				legendaryarcane = TRUE
-				active_item = TRUE
-				to_chat(user, span_warning("Arcyne lightning crackles across the cuirass, enshrining your mastery over magicka!"))
-				icon_state ="artificerplate_powered"
-				item_state = "artificerplate_powered"
+			active_item = TRUE
+			user.change_stat(STATKEY_INT, 3)
+			to_chat(user, span_warning("Arcyne lightning crackles across the cuirass, enshrining your mastery over magicka!"))
+			icon_state ="artificerplate_powered"
+			item_state = "artificerplate_powered"
 		else
 			to_chat(user, span_warning("The cuirass feels unnervingly cold to the touch."))
 	if(mode == 2)
@@ -133,14 +128,12 @@
 			if(current_athletics < 6)// Only add if not already capped
 				user.adjust_skillrank(/datum/skill/misc/athletics, 1, TRUE)
 				legendaryathletics = FALSE
-				icon_state ="artificerplate_powered"
-				item_state = "artificerplate_powered"
 			else
 				legendaryathletics = TRUE
 			active_item = TRUE
 			to_chat(user, span_notice("Arcyne lightning crackles across the cuirass, enchanting your body with adrenalized power!"))
-			user.change_stat("strength", 2)
-			user.change_stat("endurance", 2)
+			user.change_stat(STATKEY_STR, 2)
+			user.change_stat(STATKEY_WIL, 2)
 			icon_state ="artificerplate_powered"
 			item_state = "artificerplate_powered"
 			return
@@ -157,7 +150,7 @@
 					H.adjust_skillrank(/datum/skill/magic/arcane, -1, TRUE)
 				if(H.get_item_by_slot(SLOT_ARMOR) == src)
 					to_chat(H, span_notice("Gone is the intelligence, which bolstered thine arcyna.."))
-					H.change_stat("intelligence", -3)
+					H.change_stat(STATKEY_INT, -3)
 					active_item = FALSE
 					return
 			else
@@ -169,8 +162,8 @@
 					H.adjust_skillrank(/datum/skill/misc/athletics, -1, TRUE)
 				if(H.get_item_by_slot(SLOT_ARMOR) == src)
 					to_chat(H, span_notice("Gone is the strength, which bolstered thine arms.."))
-					user.change_stat("strength", -2)
-					user.change_stat("endurance", -2)
+					user.change_stat(STATKEY_STR, -2)
+					user.change_stat(STATKEY_WIL, -2)
 					active_item = FALSE
 					return
 			else
